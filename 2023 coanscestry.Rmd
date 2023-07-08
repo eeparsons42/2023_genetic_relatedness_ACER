@@ -1,0 +1,79 @@
+---
+title: '2023'
+author: "Emily Parsons"
+date: "2023-01-09"
+output: html_document
+---
+
+```{r}
+library(SNPRelate)
+library(vcfR)
+library(related)
+```
+
+```{r}
+snps.vcf <- "C:/Users/eepar/Documents/692.vcf"
+```
+
+
+
+```{r}
+snpgdsVCF2GDS(snps.vcf, "snps.gds")
+```
+
+```{r}
+vcf <- snpgdsOpen(vcf)
+```
+
+```{r}
+king_homo <- snpgdsIBDKING(allsnps4, type=c("KING-robust"), autosome.only=FALSE, remove.monosnp=FALSE)
+```
+```{r}
+# select a subset of pairs of individuals
+dat <- snpgdsIBDSelection(king_homo, 1/132)
+head(dat)
+
+plot(dat$k0, dat$kinship, xlab="Pr(IBD=0)",
+    ylab="Estimated Kinship Coefficient (KING-homo)")
+```
+
+
+```{r}
+write.csv(dat, file='C:/Users/Emily/Desktop/27snps_robust.csv')
+```
+
+
+
+with APALM
+
+```{r}
+vcf2.fn <- "C:/Users/Emily/Desktop/ALLACER_APALM_renamed.vcf"
+```
+
+```{r}
+allsnps2 <- snpgdsVCF2GDS(vcf.fn, 'allsnps2')
+```
+
+
+
+```{r}
+allsnps2 <- snpgdsOpen(allsnps2)
+```
+
+```{r}
+king_homo_apalm <- snpgdsIBDKING(allsnps2, type=c("KING-homo"), autosome.only=FALSE, remove.monosnp=FALSE)
+```
+```{r}
+# select a subset of pairs of individuals
+dat2 <- snpgdsIBDSelection(king_homo_apalm, 1/132)
+head(dat2)
+
+plot(dat2$k0, dat2$kinship, xlab="Pr(IBD=0)",
+    ylab="Estimated Kinship Coefficient (KING-homo)")
+```
+
+```{r}
+write.csv(dat2, file='C:/Users/Emily/Desktop/homog_king_apalm.csv')
+```
+
+

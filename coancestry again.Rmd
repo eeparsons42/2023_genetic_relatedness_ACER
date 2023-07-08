@@ -1,0 +1,269 @@
+---
+title: "coan attempt (9/26)"
+output: html_document
+date: "2022-09-26"
+---
+
+all 96 samples unfiltered 
+
+```{r}
+library('vcfR')
+library('poppr')
+library('adegenet')
+library('ggplot2')
+library('dplyr')
+library('tidyr')
+library('stringr')
+library('related')
+library('tools')
+```
+
+```{r}
+library(pegas)
+```
+
+
+
+
+```{r}
+library(vcfR)
+library(related)
+
+vcf = read.vcfR('C:/Users/parsonsee/Desktop/subset_12samples.vcf')
+
+geno = extract.gt(vcf)
+G_relate = matrix(NA, nrow = ncol(geno), ncol = nrow(geno)*2)
+abob = t(substr(geno, start = 1, stop = 1))
+bbob = t(substr(geno, start = 3, stop = 3))
+odd = seq(1, ncol(G_relate), by = 2)
+G_relate[, odd] = abob
+G_relate[, odd + 1] = bbob
+rownames(G_relate) = rownames(abob)
+colnames(G_relate) = rep(colnames(abob), each = 2)
+class(G_relate) = "numeric"
+G_relate = data.frame(Individual = rownames(G_relate), G_relate)
+G_relate$Individual = as.character(G_relate$Individual)
+G_relate[, 2:ncol(G_relate)] = G_relate[, 2:ncol(G_relate)] + 1 #to avoid 0s in data
+```
+```{r}
+t(geno[1:5,1:5])
+G_relate[1:5,1:10]
+```
+
+
+
+
+```{r}
+relatedness <- coancestry(G_relate, wang=1)
+```
+
+```{r}
+write.csv(dat, file = "C:/Users/parsonsee/Desktop/dat.csv")
+```
+
+
+
+```{r}
+relatedness <- coancestry(dat, wang=1)
+```
+
+
+
+
+```{r}
+vcf2 = read.vcfR('C:/Users/parsonsee/Desktop/subset_12samples.vcf')
+
+geno = extract.gt(vcf2)
+G_relate = matrix(NA, nrow = ncol(geno), ncol = nrow(geno)*2)
+abob = t(substr(geno, start = 1, stop = 1))
+bbob = t(substr(geno, start = 3, stop = 3))
+odd = seq(1, ncol(G_relate), by = 2)
+G_relate[, odd] = abob
+G_relate[, odd + 1] = bbob
+rownames(G_relate) = rownames(abob)
+colnames(G_relate) = rep(colnames(abob), each = 2)
+class(G_relate) = "numeric"
+G_relate = data.frame(Individual = rownames(G_relate), G_relate)
+G_relate$Individual = as.character(G_relate$Individual)
+```
+```{r}
+t(geno[1:5,1:5])
+G_relate[1:5,1:10]
+```
+
+```{r}
+library('ggplot2')
+library('dplyr')
+library('tidyr')
+```
+
+```{r}
+vcfdat<- vcfR2tidy(
+  vcf2,
+  info_only = FALSE,
+  single_frame = TRUE,
+  toss_INFO_column = TRUE
+)
+
+extract_info_tidy(vcf2, info_fields = NULL, info_types = TRUE, info_sep = ";")
+
+extract_gt_tidy(
+  vcf2,
+  format_fields = NULL,
+  format_types = TRUE,
+  dot_is_NA = TRUE,
+  alleles = TRUE,
+  allele.sep = "/",
+  gt_column_prepend = "gt_",
+  verbose = TRUE
+)
+
+vcf_field_names(vcf2, tag = "INFO")
+```
+```{r}
+gendat<- vcfdat$dat
+```
+
+```{r}
+library(stringr)
+```
+
+```{r}
+x <-gendat$gt_GT_alleles
+
+gen <- str_split_fixed(x, "/", 2)
+id <- gendat$Indiv
+final <- cbind(id, gen)
+final
+```
+```{r}
+final <- head(final[c("id", "Allele1", "Allele2")])
+```
+
+```{r}
+colnames(final) <- c('id','Allele1','Allele2')
+```
+
+
+```{r}
+final <- as.data.frame(final)
+head(final)
+```
+
+```{r}
+write.csv(G_relate, file = "C:/Users/parsonsee/Desktop/G_relate.csv")
+```
+
+```{r}
+final <- read.table("C:/Users/parsonsee/Desktop/grelate.txt", header=FALSE , sep="\t", stringsAsFactors =FALSE)
+```
+
+```{r}
+final
+```
+```{r}
+outfile <- coancestry (final, wang=1)
+```
+
+
+
+
+
+```{r}
+#---Read data into R---#
+input <- readgenotypedata(final)
+```
+```{r}
+input
+```
+
+
+```{r}
+library(related)
+```
+
+
+```{r}
+#---Estimate relatedness---#
+rel <- coancestry(input$gdata, lynchli=1, wang=1)
+```
+
+
+```{r}
+		#---Create simulated individuals of known relatedness---#
+sim <- familysim(input$freqs, 100)
+```
+
+```{r}
+#---Compare relatedness estimators---#
+compareestimators(input, 100)
+```
+
+```{r}
+outfile <- coancestry("C:/Users/parsonsee/Desktop/grelate.txt", wang=1)
+```
+
+
+```{r}
+#---Estimate relatedness---#
+		rel <- coancestry(G_relate, lynchli=1, lynchrd=1, quellergt=1, wang=1)
+```
+
+
+```{r}
+		#---Create simulated individuals of known relatedness---#
+		sim <- familysim(G_relate, 100)
+```
+
+		#---Create simulated individuals of known relatedness---#
+		sim <- familysim(input$freqs, 100)
+```
+
+```{r}
+relat_fullDat = coancestry(G_relate, lynchli=1, lynchrd=1, quellergt=1, ritland=1, wang=1)
+```
+
+# write for delta7, delta8, relatedness, and inbreeding 
+
+```{r}
+write.csv(relat_fullDat$delta8, file = "C:/Users/parsonsee/Desktop/delta8.csv")
+```
+
+
+
+#all 96 samples hwe filtered 
+
+```{r}
+vcf = read.vcfR('C:/Users/parsonsee/Desktop/allhwe.vcf')
+
+geno = extract.gt(vcf)
+G_relate = matrix(NA, nrow = ncol(geno), ncol = nrow(geno)*2)
+abob = t(substr(geno, start = 1, stop = 1))
+bbob = t(substr(geno, start = 3, stop = 3))
+odd = seq(1, ncol(G_relate), by = 2)
+G_relate[, odd] = abob
+G_relate[, odd + 1] = bbob
+rownames(G_relate) = rownames(abob)
+colnames(G_relate) = rep(colnames(abob), each = 2)
+class(G_relate) = "numeric"
+G_relate = data.frame(Individual = rownames(G_relate), G_relate)
+G_relate$Individual = as.character(G_relate$Individual)
+G_relate[, 2:ncol(G_relate)] = G_relate[, 2:ncol(G_relate)] + 1 #to avoid 0s in data
+```
+
+```{r}
+relat_fullDat = coancestry(G_relate, lynchli=1, lynchrd=1, quellergt=1, ritland=1, wang=1)
+```
+
+# write for delta7, delta8, relatedness, and inbreeding 
+
+```{r}
+write.csv(relat_fullDat$delta8, file = "C:/Users/parsonsee/Desktop/delta8.csv")
+write.csv(relat_fullDat$delta7, file = "C:/Users/parsonsee/Desktop/delta7.csv")
+write.csv(relat_fullDat$inbreeding, file = "C:/Users/parsonsee/Desktop/inbreeding.csv")
+```
+
+
+```{r}
+write.csv(relat_fullDat$relatedness, file = "C:/Users/parsonsee/Desktop/relatedness.csv")
+```

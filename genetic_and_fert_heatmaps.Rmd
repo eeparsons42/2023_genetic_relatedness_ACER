@@ -1,0 +1,194 @@
+---
+title: "relatedness heatmaps"
+author: "Emily Parsons"
+date: "12/8/2020"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(RColorBrewer) 
+
+```
+
+```{r}
+acer_all_split <- read.csv("C:/Users/parsonsee/Desktop/relatedness_heatmap_night1.csv")
+
+str(acer_all_split)
+
+heatmap <- acer_all_split %>%
+  mutate(sperm=factor(sperm)) %>%
+  mutate(ova=factor(ova)) %>%
+  mutate(gen=as.numeric(gen))
+```
+
+
+```{r}
+heatmap_night1_genetic <- ggplot(heatmap, aes(sperm, ova, fill = gen)) + geom_tile(colour="white",size=0.25)+
+  scale_fill_gradient(low = "red", high = "green")+
+  #remove x and y axis labels
+  labs(x="Sperm",y="Ova", title="A.cer gametes genetic dissimilarity - Night 1")+
+
+  #remove extra space
+  scale_y_discrete(expand=c(0,0))+
+  #define new breaks on x-axis
+  scale_x_discrete(expand=c(0,0))+
+
+  theme_grey(base_size=8)+
+  #theme options
+  theme(
+    #bold font for legend text
+    legend.text=element_text(face="bold"),
+    #set thickness of axis ticks
+    axis.ticks=element_line(size=0.4),
+    #remove plot background
+    plot.background=element_blank(),
+    #remove plot border
+    panel.border=element_blank())
+
+heatmap_night1_genetic
+```
+  
+```{r}
+acer_all_split2 <- read.csv("C:/Users/parsonsee/Desktop/night1heatmap.csv")
+
+str(acer_all_split2)
+
+heatmap2 <- acer_all_split2 %>%
+  mutate(Sperm=factor(Sperm)) %>%
+  mutate(Ova=factor(Ova)) %>%
+  mutate(Fert.rate=as.numeric(Fert.rate))
+```
+
+
+```{r}
+heatmap_night1_fert <- ggplot(heatmap2, aes(Sperm, Ova, fill = Fert.rate)) + geom_tile(colour="white",size=0.25)+
+  
+   
+  scale_fill_gradient(low = "red", high = "green")+
+  #remove x and y axis labels
+  labs(x="Sperm",y="Ova", title="Fertilization of A. cervicornis crosses (Night 1)")+
+
+  #remove extra space
+  scale_y_discrete(expand=c(0,0))+
+  #define new breaks on x-axis
+  scale_x_discrete(expand=c(0,0))+
+
+  theme_grey(base_size=8)+
+  #theme options
+  theme(
+    #bold font for legend text
+    legend.text=element_text(face="bold"),
+    #set thickness of axis ticks
+    axis.ticks=element_line(size=0.4),
+    #remove plot background
+    plot.background=element_blank(),
+    #remove plot border
+    panel.border=element_blank())
+  
+
+
+heatmap_night1_fert
+```  
+  
+```{r}
+setwd("C:/Users/parsonsee/Desktop/genetic-analysis/figs")
+#Saving heatmaps to 'figs' folder in project directory 
+ggsave(heatmap_night1_genetic,filename="night1_genetic_heatmap.png",height=5.5,width=8.8,units="in",dpi=200) 
+ggsave(heatmap_night1_fert,filename="night1_fert_heatmap.png",height=5.5,width=8.8,units="in",dpi=200) 
+```
+
+```{r}
+night2gen <- read.csv("C:/Users/parsonsee/Desktop/relatedness_heatmap_night2.csv")
+
+str(night2gen)
+
+heatmap <- night2gen %>%
+  mutate(sperm=factor(sperm)) %>%
+  mutate(ova=factor(ova)) %>%
+  mutate(gen=as.numeric(gen))
+```
+
+
+
+
+
+```{r}
+heatmap_night2_genetic <- ggplot(heatmap, aes(sperm, ova, fill = gen)) + geom_tile(colour="white",size=0.25)+
+  scale_fill_gradient(low = "red", high = "green")+
+  #remove x and y axis labels
+  labs(x="Sperm",y="Ova", title="A.cer gametes genetic dissimilarity - Night 2")+
+
+  #remove extra space
+  scale_y_discrete(expand=c(0,0))+
+  #define new breaks on x-axis
+  scale_x_discrete(expand=c(0,0))+
+
+  theme_grey(base_size=8)+
+  #theme options
+  theme(
+    #bold font for legend text
+    legend.text=element_text(face="bold"),
+    #set thickness of axis ticks
+    axis.ticks=element_line(size=0.4),
+    #remove plot background
+    plot.background=element_blank(),
+    #remove plot border
+    panel.border=element_blank())
+
+heatmap_night2_genetic
+```
+
+```{r}
+heatmap_fert_night2 <- read.csv("C:/Users/parsonsee/Desktop/night2heatmap.csv")
+
+str(heatmap_fert_night2)
+
+heatmap2 <- heatmap_fert_night2 %>%
+  mutate(Sperm=factor(Sperm)) %>%
+  mutate(Ova=factor(Ova)) %>%
+  mutate(Fert.rate=as.numeric(Fert.rate))
+```
+
+```{r}
+heatmap_night2_fert <- ggplot(heatmap_fert_night2, aes(Sperm, Ova, fill = Fert.rate)) + geom_tile(colour="white",size=0.25)+
+  
+   
+  scale_fill_gradient(low = "red", high = "green")+
+  #remove x and y axis labels
+  labs(x="Sperm",y="Ova", title="Fertilization of A. cervicornis crosses (Night 2)")+
+
+  #remove extra space
+  scale_y_discrete(expand=c(0,0))+
+  #define new breaks on x-axis
+  scale_x_discrete(expand=c(0,0))+
+
+  theme_grey(base_size=8)+
+  #theme options
+  theme(
+    #bold font for legend text
+    legend.text=element_text(face="bold"),
+    #set thickness of axis ticks
+    axis.ticks=element_line(size=0.4),
+    #remove plot background
+    plot.background=element_blank(),
+    #remove plot border
+    panel.border=element_blank())
+  
+
+
+heatmap_night2_fert
+```
+
+
+```{r}
+setwd("C:/Users/parsonsee/Desktop/genetic-analysis/figs")
+#Saving heatmaps to 'figs' folder in project directory 
+ggsave(heatmap_night2_genetic,filename="night2_genetic_heatmap.png",height=5.5,width=8.8,units="in",dpi=200) 
+ggsave(heatmap_night2_fert,filename="night2_fert_heatmap.png",height=5.5,width=8.8,units="in",dpi=200) 
+```
+
+

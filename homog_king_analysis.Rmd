@@ -1,0 +1,55 @@
+---
+title: "2022 KING and fert"
+author: "Emily Parsons"
+date: "2023-01-09"
+output: html_document
+---
+
+```{r}
+library(ggpubr)
+library(GGally)
+library(ggplot2)
+```
+
+
+
+
+```{r}
+data_all <- read.csv("C:/Users/eepar/Desktop/2022_all.csv")
+data_night1 <- read.csv("C:/Users/eepar/Desktop/2022_night1.csv")
+data_night2 <- read.csv("C:/Users/eepar/Desktop/2022_night2.csv")
+```
+```{r}
+
+x = data_all$Wang
+y = data_all$fert
+result = cor(x, y, method = "spearman")
+# Print the result
+cat("Spearman correlation coefficient is:", result)
+```
+```{r}
+data <- read.csv("C:/Users/eepar/Desktop/2022_all.csv")
+library("ggpubr")
+ggscatter(data, x = "Wang", y = "fert", 
+          add = "reg.line", conf.int = TRUE, conf.int.level = 0.95, 
+          cor.coef = TRUE, cor.method = "spearman",
+          xlab = "2022 Fertilization vs. Genetic Relatedness", ylab = "Fertilization", main= "ACER 2022 Fertilization Results (n=3) vs. Genetic Relatedness of Parents (Spearman Correlation")
+```
+
+```{r}
+data <- read.csv("C:/Users/Emily/Desktop/king2022.csv")
+library("ggpubr")
+ggscatter(data, x = "king_homog_111", y = "fert", 
+          add = "reg.line", conf.int = TRUE, conf.int.level = 0.95, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "2022 Fertilization vs. Genetic Relatedness", ylab = "Fertilization", main= "ACER 2022 Fertilization Results (n=3) vs. Genetic Relatedness of Parents (Spearman Correlation")
+```
+
+```{r}
+data <- read.csv("C:/Users/Emily/Desktop/night4_gen_noout.csv")
+library("ggpubr")
+ggscatter(data, x = "king_homog_111", y = "fert", 
+          add = "reg.line", conf.int = TRUE, conf.int.level = 0.95, 
+          cor.coef = TRUE, cor.method = "spearman",
+          xlab = "King_homog_111", ylab = "Fertilization", main= "8/15/2022 Fert vs. Genetic Relatedness (Spearman)")
+```

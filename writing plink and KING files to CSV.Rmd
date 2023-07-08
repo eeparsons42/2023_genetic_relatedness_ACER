@@ -1,0 +1,110 @@
+---
+title: "KING"
+author: "Emily Parsons"
+date: "2/19/2021"
+output: html_document
+---
+
+```{r}
+
+all <- read.table(file = "C:/Users/parsonsee/Desktop/king/king.kin", header=T)
+
+
+```
+
+```{r}
+as.data.frame(all)
+```
+```{r}
+write.csv(all, "C:/Users/parsonsee/Desktop/homog.csv")
+```
+
+
+```{r}
+
+var <- read.table(file = "C:/Users/parsonsee/Desktop/KING/all/related.kin0", header=T)
+
+
+```
+
+```{r}
+as.data.frame(var)
+write.csv(var, "C:/Users/parsonsee/Desktop/related.csv")
+```
+
+
+
+all 96 samples with just genotyping snps 
+
+```{r}
+sub <- read.table(file = "C:/Users/parsonsee/Desktop/KING/subset/sub_king.kin", header=T)
+```
+
+```{r}
+as.data.frame(sub)
+write.csv(sub, "C:/Users/parsonsee/Desktop/all_genotypesnps.csv")
+````
+Subset of my samples with all genotyping SNPs 
+
+```{r}
+allmine <- read.table(file = "C:/Users/parsonsee/Desktop/KING/all_mine/allmine_king.kin", header=T)
+```
+
+```{r}
+as.data.frame(allmine)
+write.csv(allmine, "C:/Users/parsonsee/Desktop/allsnps_10samples2.csv")
+````
+Fst
+
+```{r}
+fst <- read.table(file = "C:/Users/parsonsee/Desktop/KING/var/plink.het", header=T)
+```
+
+```{r}
+as.data.frame(fst)
+write.csv(fst, "C:/Users/parsonsee/Desktop/fst.csv")
+````
+
+
+```{r}
+fst_subset <- read.table(file = "C:/Users/parsonsee/Desktop/KING/var/subset.het", header=T)
+```
+
+```{r}
+as.data.frame(fst_subset)
+write.csv(fst_subset, "C:/Users/parsonsee/Desktop/fst_subset.csv")
+````
+
+H-W
+
+```{r}
+frq <- read.table(file = "C:/Users/parsonsee/Desktop/KING/all/plink.frq", header=T)
+
+as.data.frame(frq)
+write.table(frq, "C:/Users/parsonsee/Desktop/frq.txt")
+
+```
+
+
+```{r}
+kinship_allsamples <- readBin('C:/Users/parsonsee/Desktop/KING/all/related.kin.bin')
+  
+
+
+as.data.frame(kinship_allsamples)
+write.csv(kinship_allsamples, "C:/Users/parsonsee/Desktop/kinship_allsamples.csv")
+```
+
+```{r}
+kingest <- read.table('C:/Users/parsonsee/Desktop/KING/var/plink2.kin0')
+
+as.data.frame(kingest)
+write.csv(kingest, "C:/Users/parsonsee/Desktop/kingest.csv")
+```
+```{r}
+allsnp <- read.table('C:/Users/parsonsee/Desktop/KING/test/plink.het')
+
+as.data.frame(allsnp)
+write.csv(allsnp, "C:/Users/parsonsee/Desktop/allsnp.csv")
+```
+

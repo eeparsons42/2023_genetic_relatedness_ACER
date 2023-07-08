@@ -1,0 +1,415 @@
+---
+title: "IBS_Stats"
+author: "Emily Parsons"
+date: "2/9/2021"
+output: html_document
+---
+
+Identity by state measurements vs. fertilization - all SNP variant data 
+
+```{r}
+
+install.packages("e1071")
+
+```
+
+```{r}
+library(ggplot2)
+library(car)
+library(e1071)
+```
+
+```{r}
+data1 <- read.csv("C:/Users/eepar/Desktop/2022all_time.csv")
+
+data4 <- read.csv("C:/Users/eepar/Desktop/miles_2022.csv")
+```
+
+
+```{r}
+#use spearman
+shapiro.test(data1$fert) # => p = 0.1229
+# Shapiro-Wilk normality test for wt
+shapiro.test(data1$time) # => p = 0.09
+```
+```{r}
+#use spearman
+shapiro.test(data4$fert_sqrt) # => p = 0.1229
+# Shapiro-Wilk normality test for wt
+shapiro.test(data4$mi_sqrt) # => p = 0.09
+```
+
+```{r}
+#USE spearman
+shapiro.test(data2$fert) # => p = 0.1229
+# Shapiro-Wilk normality test for wt
+shapiro.test(data2$mi) # => p = 0.09
+```
+```{r}
+#USE SPEARMAN
+shapiro.test(data3$fert) # => p = 0.1229
+# Shapiro-Wilk normality test for wt
+shapiro.test(data3$mi) # => p = 0.09
+```
+```{r}
+#USE PEARSON CORRELATION
+shapiro.test(data4$fert_sqrt) # => p = 0.1229
+# Shapiro-Wilk normality test for wt
+shapiro.test(data4$mi_sqrt) # => p = 0.09
+```
+
+```{r}
+  ggplot(data1, aes(x=direction, y=wang, fill=direction)) +
+    geom_boxplot() + ggtitle("Directionality Boxplots: Night 2") +
+  xlab("Direction") + ylab("Relatedness est") 
+    
+```
+
+
+```{r}
+library(e1071)
+```
+
+```{r}
+displ1<-skewness(data$fert) 
+displ1
+```
+```{r}
+displ1_sqrt<-skewness(data$mi) 
+displ1_sqrt
+```
+```{r}
+displ2_log<-skewness(data$fert) 
+displ2_log
+```
+```{r}
+displ3_ln<-skewness(data3$mi) 
+displ3_ln
+```
+```{r}
+displ4_sq<-skewness(data4$mi) 
+displ4_sq
+```
+
+
+
+If skewness value lies above +1 or below -1, data is highly skewed. If it lies between +0.5 to -0.5, it is moderately skewed. If the value is 0, then the data is symmetric
+```{r}
+displ2<-skewness(data1$mi) 
+displ2
+```
+```{r}
+displ2_sq <- skewness(data4$mi)
+displ2_sq
+```
+
+
+If skewness value lies above +1 or below -1, data is highly skewed. If it lies between +0.5 to -0.5, it is moderately skewed. If the value is 0, then the data is symmetric
+
+data are moderately to highly skewed towards the left 
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(data, aes(x=mi_sqrt)) + ggtitle ("homog_king Genetic Distance Measures LN transformed: Histogram + Density Curve") +
+  xlab("Genetic Distance") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666") 
+# Overlay with transparent density plot
+```
+
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(data4, aes(x=mi)) + ggtitle("Night 1 Avergage Fert. Rates (Sq Transformed): Histogram + Density Curve") +
+  xlab("Fertilization") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8, boundary = 9700,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666") 
+# Overlay with transparent density plot
+```
+
+
+```{r}
+summary(data$fert)
+boxplot(data$fert, main ="Boxplot: King_homog genetic distance (LN transformed)", ylab="Genetic Relatedness", ylim=c(0,100))
+qqnorm(data$fert, main ="Normal Q-Q Plot: King_homog genetic distance (LN transformed)")
+qqline(data$fert)
+```
+
+
+```{r}
+summary(data4$fert)
+boxplot(data4$fert, main ="Boxplot: Night 1 Out-Crosses (Square Transformed)", ylab="Fertilization Rate", ylim=c(0,120))
+qqnorm(data4$fert, main ="Normal Q-Q Plot: Night 1 Out-Crosses (Square Transformed)")
+qqline(data4$fert)
+```
+
+```{r}
+summary(data4$fert)
+boxplot(data4$fert, main ="Boxplot: Night 1 Out-Crosses (Square Transformed)", ylab="Fertilization Rate", ylim=c(0,120))
+qqnorm(data4$fert, main ="Normal Q-Q Plot: Night 1 Out-Crosses (Square Transformed)")
+qqline(data4$fert)
+```
+
+
+
+
+
+```{r}
+summary(data2$mi)
+boxplot(data2$mi, main ="Boxplot: Night 1 Out-Crosses (Square Transformed)", ylab="Fertilization Rate", ylim=c(0,100))
+qqnorm(data2$mi, main ="Normal Q-Q Plot: Night 1 Out-Crosses (Square Transformed)")
+qqline(data2$mi)
+```
+```{r}
+summary(data3$mi)
+boxplot(data3$mi, main ="Boxplot: Night 1 Out-Crosses (Square Transformed)", ylab="Fertilization Rate", ylim=c(0,100))
+qqnorm(data3$mi, main ="Normal Q-Q Plot: Night 1 Out-Crosses (Square Transformed)")
+qqline(data3$mi)
+```
+```{r}
+summary(data4$mi)
+boxplot(data4$mi, main ="Boxplot: Night 1 Out-Crosses (Square Transformed)", ylab="Fertilization Rate", ylim=c(0,120))
+qqnorm(data4$mi, main ="Normal Q-Q Plot: Night 1 Out-Crosses (Square Transformed)")
+qqline(data4$mi)
+```
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(data2, aes(x=fert)) + ggtitle("Night 2 Avergae Fertilization Rates (Untransformed): Histogram + Density Curve") +
+  xlab("Fertilization") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8, boundary = 100,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666")  # Overlay with transparent density plot
+
+```
+
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(gennorm, aes(x=lynchli_ln)) + ggtitle("Lynchli Method LN transformed: Histogram + Density Curve") +
+  xlab("Genetic Relatedness") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8, boundary = 10000,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666")  # Overlay with transparent density plot
+
+```
+
+```{r}
+summary(data2$fert)
+boxplot(data2$fert, main ="Boxplot: Night 2 Out-Crosses (Untransformed)", ylab="Fertilization Rate", ylim=c(0,100))
+qqnorm(data2$fert, main ="Normal Q-Q Plot: Night 2 Out-Crosses (Untransformed)")
+qqline(data2$fert)
+```
+
+
+```{r}
+summary(data2$fert_sq)
+boxplot(data2$fert_sq, main ="Boxplot: Night 2 Out-Crosses (Square Transformed)", ylab="Fertilization Rate", ylim=c(0,10000))
+qqnorm(data2$fert_sq, main ="Normal Q-Q Plot: Night 2 Out-Crosses (Square Transformed)")
+qqline(data2$fert_sq)
+```
+GENETIC DATA
+
+```{r}
+gen1 <- skewness(data2$all_coan_wang)
+gen2 <- skewness(data2$all_coan_lynchli)
+gen3 <- skewness(data2$all_ibs_tassel_nohwe)
+gen4 <- skewness(data2$related_all_nohwe)
+gen5 <- skewness(data2$homog_all_nohwe)
+gen6 <- skewness(data2$p_dist_all)
+gen1
+gen2
+gen3
+gen4
+gen5
+gen6
+```
+
+```{r}
+gen1sq <- skewness(data2$all_coan_wang_sq)
+gen2sq <- skewness(data2$all_coan_lynchli_sq)
+gen3sq <- skewness(data2$all_ibs_tassel_nohwe_sq)
+gen4sq <- skewness(data2$related_all_nohwe_sq)
+gen5sq <- skewness(data2$homog_all_nohwe_sq)
+gen6sq <- skewness(data2$p_dist_all_sq)
+gen1sq
+gen2sq
+gen3sq
+gen4sq
+gen5sq
+gen6sq
+```
+
+```{r}
+gennorm <-  read.csv("C:/Users/parsonsee/Desktop/king_norm.csv")
+```
+
+```{r}
+wang <- skewness(gennorm$wang)
+wang_ln <- skewness(gennorm$wang_ln)
+lynchli <- skewness(gennorm$lynchli)
+lynchli_ln <- skewness(gennorm$lynchli_ln)
+wang
+wang_ln
+lynchli
+lynchli_ln
+```
+
+
+```{r}
+summary(gennorm$homog)
+boxplot(gennorm$homog, main ="Boxplot: Coancestry (Lynchli Method) LN transformed", ylab="Fertilization Rate", ylim=c(-1,1))
+qqnorm(gennorm$homog, main ="Normal Q-Q Plot: Coancestry (Lynchli Method) LN transfored")
+qqline(gennorm$homog)
+```
+
+```{r}
+summary(gennorm$lynchli)
+boxplot(gennorm$lynchli, main ="Boxplot: Coancestry (lynchli Method)", ylab="Genetic Relatedness", ylim=c(-0.105,0.05))
+qqnorm(gennorm$lynchli, main ="Normal Q-Q Plot: Night 2 Coancestry (lynchli)")
+qqline(gennorm$lynchli)
+```
+
+```{r}
+gennorm1 <-  read.csv("C:/Users/parsonsee/Desktop/coan_norm1.csv")
+```
+```{r}
+wang <- skewness(gennorm1$wang)
+lynchli <- skewness(gennorm1$lynchli)
+wang
+lynchli
+```
+
+```{r}
+summary(gennorm1$wang)
+boxplot(gennorm1$wang, main ="Night 1 Boxplot: Coancestry (Wang Method)", ylab="Fertilization Rate", ylim=c(-0.08,-0.015))
+qqnorm(gennorm1$wang, main ="Normal Q-Q Plot: Night 1 Coancestry (wang)")
+qqline(gennorm1$wang)
+```
+```{r}
+summary(gennorm1$lynchli)
+boxplot(gennorm1$lynchli, main ="Boxplot: Coancestry (lynchli Method)", ylab="Genetic Relatedness", ylim=c(-0.08,-0.02))
+qqnorm(gennorm1$lynchli, main ="Normal Q-Q Plot: Night 1 Coancestry (lynchli)")
+qqline(gennorm1$lynchli)
+```
+
+OFAV Fert Data Night 1
+
+
+
+
+```{r}
+data <- read.csv("C:/Users/parsonsee/Desktop/ofavnight1.csv")
+```
+
+```{r}
+s1 <- skewness(data$fert)
+s1
+s2 <- skewness(data$fert_sq)
+s2
+s3 <- skewness(data$fert_sqrt)
+s3
+s4 <- skewness(data$fert_ln)
+s4
+```
+```{r}
+summary(data$fert_sq)
+boxplot(data$fert_sq, main ="Boxplot: OFAV Fert Results: Night 1 (SQ transformed)", ylab="Fertilization Rate", ylim=c(0,10000))
+qqnorm(data$fert_sq, main ="Normal Q-Q Plot: OFAV Fert Results: Night 1 (SQ transformed)")
+qqline(data$fert_sq)
+```
+
+If skewness value lies above +1 or below -1, data is highly skewed. If it lies between +0.5 to -0.5, it is moderately skewed. If the value is 0, then the data is symmetric
+
+data are moderately to highly skewed towards the left 
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(data, aes(x=fert)) + ggtitle ("OFAV Fert Results: Night 1 (Untransformed): Histogram + Density Curve") +
+  xlab("Genetic Distance") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666") 
+# Overlay with transparent density plot
+```
+
+
+```{r}
+summary(data$fert_sq)
+boxplot(data$fert_sq, main ="Boxplot: OFAV Fert Results: Night 1 (Untransformed)", ylab="Fertilization Rate", ylim=c(0,10000))
+qqnorm(data$fert_sq, main ="Normal Q-Q Plot: OFAV Fert Results: Night 1 (Untransformed)")
+qqline(data$fert_sq)
+```
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(data, aes(x=fert_sq)) + ggtitle ("OFAV Fert Results: Night 1 (Square transformed): Histogram + Density Curve") +
+  xlab("Genetic Distance") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666") 
+# Overlay with transparent density plot
+```
+
+```{r}
+data <- read.csv("C:/Users/parsonsee/Desktop/ofavnight1.csv")
+```
+
+```{r}
+displ <- skewness(data$fert_sq)
+displ
+```
+```{r}
+summary(data$fert)
+boxplot(data$fert, main ="Boxplot: OFAV Fert Results: Night 1 (Untransformed)", ylab="Fertilization Rate", ylim=c(0,100))
+qqnorm(data$fert, main ="Normal Q-Q Plot: OFAV Fert Results: Night 1 (Untransformed)")
+qqline(data$fert)
+```
+
+
+OFAV 2022
+
+```{r}
+data <- read.csv("C:/Users/parsonsee/Desktop/ofav4time.csv")
+```
+
+```{r}
+displ <- skewness(data$fert)
+displ
+displ2 <- skewness(data$fert_sq)
+displ2
+displ3 <- skewness(data$fert_sqrt)
+displ3
+displ4 <- skewness(data$fert_ln)
+displ4
+```
+
+```{r}
+summary(data$fert)
+boxplot(data$fert, main ="Boxplot: 2022 OFAV Fert Results (Untransformed)", ylab="Fertilization Rate", ylim=c(0,100))
+qqnorm(data$fert, main ="Normal Q-Q Plot: 2022 OFAV Fert Results (Untransformed)")
+qqline(data$fert)
+```
+
+```{r}
+summary(data$fert_sq)
+boxplot(data$fert_sq, main ="Boxplot: 2022 OFAV Fert Results (Square transformed)", ylab="Fertilization Rate", ylim=c(0,10000))
+qqnorm(data$fert_sq, main ="Normal Q-Q Plot: 2022 OFAV Fert Results (Square Untransformed)")
+qqline(data$fert_sq)
+```
+
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(data, aes(x=fert)) + ggtitle ("2022 OFAV Fert Results (Untransformed): Histogram + Density Curve") +
+  xlab("Genetic Distance") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666") 
+# Overlay with transparent density plot
+```
+
+```{r}
+# Histogram overlaid with kernel density curve
+ggplot(data, aes(x=fert_sq)) + ggtitle ("2022 OFAV Fert Results (Square transformed): Histogram + Density Curve") +
+  xlab("Genetic Distance") + ylab("Density") +
+    geom_histogram(aes(y=..density..), bins = 8,
+        colour="black", fill="white") +
+    geom_density(alpha=.2, fill="#FF6666") 
+# Overlay with transparent density plot
+```

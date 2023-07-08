@@ -1,0 +1,83 @@
+---
+title: "Genetic distance X fertilization results"
+author: "Erik Sotka"
+date: "1/14/2021"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+## Testing fertilization results of 12 crosses with identity by state values for each individual cross.  
+### n=3 per cross
+
+```{r}
+library(lattice)
+rm(list=ls())
+dat <- read.csv("C:/Users/parsonsee/Desktop/night2.csv")
+dat$parent1 <- unlist(lapply(strsplit(dat$cross,"-"),"[[",1))
+dat$parent2 <- unlist(lapply(strsplit(dat$cross,"-"),"[[",2))
+
+```
+
+## Take the mean per cross and do analysis
+### You lose the signal
+
+```{r}
+mean.fert <- tapply(dat$fert,dat$cross,mean)
+mean.fert
+```
+
+## There was a parent 1 effect...
+
+```{r}
+
+m <- lm(fert_sq~parent1,data=dat)
+anova(m)
+```
+
+
+
+```{r}
+m <- lm(fert_sq~parent2,data=dat)
+anova(m)
+```
+
+## Parent 2 effects that are significant have both positive and negative slopes
+
+```{r}
+plot(x=dat$wang_ln,y=dat$fert_sq,type="n")
+unique2 <- unique(dat$parent2)
+stats2 <- c()
+for(i in 1:10)
+{
+  tmp <- dat[dat$parent2==unique1[i],]
+  m <- lm(fert_sq~wang_ln,data=tmp)
+  abline(m)
+  stats2 <- rbind(stats2,data.frame(parent2=unique1[i],n=dim(tmp)[1],slope=summary(m)$coefficients[2],r2=round(summary(m)$r.squared,3),p=round(anova(m)$"Pr(>F)"[1],3)))
+}
+stats2$signif=ifelse(stats2$p<0.05,"*","")
+print(stats2)
+```
+
+## When you ombine these parent1 or parent 2 effects, four of five significant slopes are positive.
+
+```{r}
+plot(x=dat$idbs,y=dat$fert,type="n")
+unique1 <- unique(dat$parent1)
+stats3 <- c()
+for(i in 1:10)
+{
+  tmp <- dat[dat$parent1==unique1[i] | dat$parent2==unique1[i],]
+  m <- lm(fert~idbs,data=tmp)
+  abline(m)
+  stats3 <- rbind(stats3,data.frame(parent=unique1[i],n=dim(tmp)[1],slope=summary(m)$coefficients[2],r2=round(summary(m)$r.squared,3),p=round(anova(m)$"Pr(>F)"[1],3)))
+  
+}
+stats3$signif=ifelse(stats3$p<0.05,"*","")
+print(stats3)
+```
+
+
+

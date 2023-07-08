@@ -1,0 +1,299 @@
+---
+title: "coancestry script"
+output: html_document
+---
+
+12 sample subset unfiltered 
+
+
+```{r}
+library('vcfR')
+library('poppr')
+library('adegenet')
+library('ggplot2')
+library('dplyr')
+library('tidyr')
+library('stringr')
+library('related')
+library('tools')
+```
+
+
+```{r}
+vcf = read.vcfR('C:/Users/parsonsee/Desktop/subset_12samples.vcf')
+
+geno = extract.gt(vcf)
+G_relate = matrix(NA, nrow = ncol(geno), ncol = nrow(geno)*2)
+abob = t(substr(geno, start = 1, stop = 1))
+bbob = t(substr(geno, start = 3, stop = 3))
+odd = seq(1, ncol(G_relate), by = 2)
+G_relate[, odd] = abob
+G_relate[, odd + 1] = bbob
+rownames(G_relate) = rownames(abob)
+colnames(G_relate) = rep(colnames(abob), each = 2)
+class(G_relate) = "numeric"
+G_relate = data.frame(Individual = rownames(G_relate), G_relate)
+G_relate$Individual = as.character(G_relate$Individual)
+```
+```{r}
+t(geno[1:5,1:5])
+G_relate[1:5,1:10]
+```
+
+
+
+
+```{r}
+G_relate <- as.data.frame(G_relate)
+```
+
+
+```{r}
+head(G_relate)
+```
+
+
+
+```{r}
+input <- readgenotypedata(G_relate)
+```
+
+```{r}
+head(input)
+```
+
+
+
+
+
+
+
+```{r}
+#---Estimate relatedness---#
+rel <- coancestry(input$gdata, lynchli=1, wang=1)
+```
+
+
+
+
+```{r}
+		#---Create simulated individuals of known relatedness---#
+sim <- familysim(input$freqs, 10)
+```
+
+```{r}
+#---Compare relatedness estimators---#
+compareestimators(input, 10)
+```
+
+
+# write for delta7, delta8, relatedness, and inbreeding 
+
+
+
+```{r}
+write.csv(rel$delta8, file = "C:/Users/parsonsee/Desktop/delta8.csv")
+write.csv(rel$delta7, file = "C:/Users/parsonsee/Desktop/delta7.csv")
+write.csv(rel$inbreeding, file = "C:/Users/parsonsee/Desktop/inbreeding.csv")
+write.csv(rel$relatedness, file = "C:/Users/parsonsee/Desktop/relatedness.csv")
+```
+
+
+
+```{r}
+relat_fullDat = coancestry(G_relate, lynchli=1, lynchrd=1, quellergt=1, ritland=1, wang=1)
+```
+
+
+
+
+
+```{r}
+allele <- read.vcfR('C:/Users/parsonsee/Desktop/Emily_test.vcf')
+```
+```{r}
+gt <- extract.gt(allele)
+hets <- is_het(gt)
+# Censor non-heterozygous positions.
+is.na(allele@gt[,-1][!hets]) <- TRUE
+# Extract allele depths.
+ad <- extract.gt(allele, element = "AD")
+ad1 <- masplit(ad, record = 1)
+ad2 <- masplit(ad, record = 2)
+freq1 <- ad1/(ad1+ad2)
+freq2 <- ad2/(ad1+ad2)
+myPeaks1 <- freq_peak(freq1, getPOS(allele))
+is.na(myPeaks1$peaks[myPeaks1$counts < 20]) <- TRUE
+myPeaks2 <- freq_peak(freq2, getPOS(allele), lhs = FALSE)
+is.na(myPeaks2$peaks[myPeaks2$counts < 20]) <- TRUE
+myPeaks1
+
+```
+
+```{r}
+AD_frequency(ad, delim = ",", allele = 1L, sum_type = 0L, decreasing = 1L)
+```
+
+
+
+
+
+
+new attempt 
+
+```{r}
+vcf2 = read.vcfR('C:/Users/parsonsee/Desktop/Emily_test.vcf')
+
+geno = extract.gt(vcf2)
+G_relate = matrix(NA, nrow = ncol(geno), ncol = nrow(geno)*2)
+abob = t(substr(geno, start = 1, stop = 1))
+bbob = t(substr(geno, start = 3, stop = 3))
+odd = seq(1, ncol(G_relate), by = 2)
+G_relate[, odd] = abob
+G_relate[, odd + 1] = bbob
+rownames(G_relate) = rownames(abob)
+colnames(G_relate) = rep(colnames(abob), each = 2)
+class(G_relate) = "numeric"
+G_relate = data.frame(Individual = rownames(G_relate), G_relate)
+G_relate$Individual = as.character(G_relate$Individual)
+```
+```{r}
+t(geno[1:5,1:5])
+G_relate[1:5,1:10]
+```
+
+```{r}
+library('ggplot2')
+library('dplyr')
+library('tidyr')
+```
+
+```{r}
+vcfdat<- vcfR2tidy(
+  vcf2,
+  info_only = FALSE,
+  single_frame = TRUE,
+  toss_INFO_column = TRUE
+)
+
+extract_info_tidy(vcf2, info_fields = NULL, info_types = TRUE, info_sep = ";")
+
+extract_gt_tidy(
+  vcf2,
+  format_fields = NULL,
+  format_types = TRUE,
+  dot_is_NA = TRUE,
+  alleles = TRUE,
+  allele.sep = "/",
+  gt_column_prepend = "gt_",
+  verbose = TRUE
+)
+
+vcf_field_names(vcf2, tag = "INFO")
+```
+```{r}
+GENDATA<- vcfdat$dat
+```
+
+```{r}
+library(stringr)
+```
+
+```{r}
+x <-gendat$gt_GT_alleles
+
+gen <- str_split_fixed(x, "/", 2)
+id <- gendat$Indiv
+final <- cbind(id, gen)
+final
+```
+```{r}
+head(final[c("id", "Allele1", "Allele2")])
+```
+
+```{r}
+final <- as.data.frame(final)
+head(final)
+```
+
+
+
+```{r}
+GenotypeData
+```
+
+```{r}
+vcf2coanAF(vcf2, out.name = "coancestry_afs.txt")
+```
+
+
+```{r}
+#---Read data into R---#
+input <- readgenotypedata(final)
+```
+
+
+```{r}
+#---Estimate relatedness---#
+rel <- coancestry(input$gdata, lynchli=1, lynchrd=1, quellergt=1, wang=1)
+```
+
+
+```{r}
+		#---Create simulated individuals of known relatedness---#
+sim <- familysim(input$freqs, 100)
+```
+
+```{r}
+#---Compare relatedness estimators---#
+compareestimators(input, 100)
+```
+
+
+
+```{r}
+#---Estimate relatedness---#
+		rel <- coancestry(G_relate, lynchli=1, lynchrd=1, quellergt=1, wang=1)
+```
+
+
+```{r}
+		#---Create simulated individuals of known relatedness---#
+		sim <- familysim(G_relate, 100)
+```
+
+		#---Create simulated individuals of known relatedness---#
+		sim <- familysim(input$freqs, 100)
+
+
+```{r}
+relat_fullDat = coancestry(G_relate, lynchli=1, lynchrd=1, quellergt=1, ritland=1, wang=1)
+```
+
+
+# write for delta7, delta8, relatedness, and inbreeding 
+
+```{r}
+write.csv(relat_fullDat$delta8, file = "C:/Users/parsonsee/Desktop/delta8.csv")
+```
+
+
+new attempmt with vcf2coan function 
+
+```{r}
+install.packages("remotes")
+remotes::install_github("spflanagan/gwscaR")
+```
+
+```{r}
+library(gwscaR)
+```
+
+
+
+```{r}
+txt <- vcf2coanGT(G_relate, out.name = "Emily_test.txt")
+```
+
+
+

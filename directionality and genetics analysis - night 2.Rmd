@@ -1,0 +1,413 @@
+---
+title: "Genetic distance X fertilization results"
+author: "Erik Sotka"
+date: "1/14/2021"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+## Testing fertilization results of 12 crosses with identity by state values for each individual cross.  
+### n=3 per cross
+
+```{r}
+library(lattice)
+library(dplyr)
+rm(list=ls())
+dat <- read.csv("C:/Users/Emily/Desktop/U24_DIR.csv")
+
+dat
+```
+
+
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+dat <- read.csv("C:/Users/Emily/Desktop/U94_dir.csv")
+dat
+```
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+dat <- read.csv("C:/Users/Emily/Desktop/M13_dir.csv")
+dat
+```
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~homog_ln,data=dat)
+anova(m)
+```
+
+
+```{r}
+dat <- read.csv("C:/Users/Emily/Desktop/U50_dir.csv")
+dat
+```
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+dat <- read.csv("C:/Users/Emily/Desktop/U32_dir.csv")
+dat
+```
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+dat <- read.csv("C:/Users/Emily/Desktop/U12_dir.csv")
+dat
+```
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~homog_ln,data=dat)
+anova(m)
+```
+
+
+```{r}
+dat <- read.csv("C:/Users/Emily/Desktop/U16_dir.csv")
+dat
+```
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+dat <- read.csv("C:/Users/Emily/Desktop/U4_dir.csv")
+dat
+```
+
+```{r}
+plot(dat$fert_s~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$wang_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~wang_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$lynchli_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~lynchli_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_s~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_s~homog_ln,data=dat)
+anova(m)
+```
+
+```{r}
+plot(dat$fert_o~dat$homog_ln,
+     main='Fert',
+     xlab='Fertilization', ylab='Genetic Distance')
+m <- lm(fert_o~homog_ln,data=dat)
+anova(m)
+```
